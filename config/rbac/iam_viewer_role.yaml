@@ -1,0 +1,27 @@
+# permissions for end users to view iams.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: iam-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: operator
+    app.kubernetes.io/part-of: operator
+    app.kubernetes.io/managed-by: kustomize
+  name: iam-viewer-role
+rules:
+- apiGroups:
+  - iam.verseghy.net
+  resources:
+  - iams
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - iam.verseghy.net
+  resources:
+  - iams/status
+  verbs:
+  - get

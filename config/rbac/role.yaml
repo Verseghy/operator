@@ -28,4 +28,51 @@ rules:
   verbs:
   - create
 
+##
+## Rules for helm release
+##
+- apiGroups:
+    - networking.k8s.io
+  resources:
+    - ingresses
+  verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+
+##
+## Rules for iam.verseghy.net/v1alpha1, Kind: IAM
+##
+- apiGroups:
+  - iam.verseghy.net
+  resources:
+  - iams
+  - iams/status
+  - iams/finalizers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- verbs:
+  - "*"
+  apiGroups:
+  - ""
+  resources:
+  - "serviceaccounts"
+  - "services"
+- verbs:
+  - "*"
+  apiGroups:
+  - "apps"
+  resources:
+  - "deployments"
+
 #+kubebuilder:scaffold:rules

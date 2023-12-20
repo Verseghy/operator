@@ -1,0 +1,5 @@
+apiVersion: iam.verseghy.net/v1alpha1
+kind: IAM
+metadata:
+  name: iam
+spec: {}
