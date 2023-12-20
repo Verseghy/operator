@@ -1,0 +1,11 @@
+apiVersion: iam.verseghy.net/v1alpha1
+kind: IAM
+metadata:
+  name: iam
+spec:
+  dev: true
+  replicaCount: 1
+  image:
+    repository: registry.access.redhat.com/ubi9/ubi
+    tag: 9.3
+    command: ["sleep", "infinity"]

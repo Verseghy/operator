@@ -27,14 +27,19 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{- if .Values.image.command }}
+          command:
+            {{- range .Values.image.command }}
+            - {{.}}
+            {{- end }}
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          {{- if not .Values.dev}}
           livenessProbe:
             httpGet:
               path: /
@@ -43,8 +48,16 @@ spec:
             httpGet:
               path: /
               port: http
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}
+          {{- if .Values.dev}}
+          volumeMounts:
+            - mountPath: /host
+              name: host-mount
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -56,4 +69,10 @@ spec:
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.dev }}
+      volumes:
+        - name: host-mount
+          hostPath:
+            path: /host
       {{- end }}

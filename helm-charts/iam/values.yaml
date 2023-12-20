@@ -1,9 +1,12 @@
 replicaCount: 3
 
+dev: false
+
 image:
   repository: verseghy/iam
   pullPolicy: IfNotPresent
   tag: ""
+  command: []
 
 imagePullSecrets: []
 nameOverride: ""
@@ -32,7 +35,7 @@ securityContext:
 
 service:
   type: ClusterIP
-  port: 80
+  port: 3001
 
 ingress:
   enabled: true
